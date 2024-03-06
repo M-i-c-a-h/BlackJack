@@ -61,12 +61,10 @@ public class BlackjackDealer {
      */
     ArrayList<Card> dealHand(){
         ArrayList<Card> hand = new ArrayList<>();
-        int count = 0; // allows only 2 draws
 
         // draw from deck while card drawn is less than 2 and deck is not empty
-        while(!deck.isEmpty() && count < 2){
+        while(!deck.isEmpty() && hand.size() < 2){
             hand.add(deck.remove(0));
-            count++;
         }
         // hand was not completely drawn, add null
         while(hand.size() < 2){
