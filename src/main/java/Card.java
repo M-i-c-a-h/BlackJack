@@ -12,7 +12,7 @@ public class Card {
     int value;
 
     /**
-     * Card constructor(string, int) creates new Card object
+     * creates new Card object
      * @param theSuit - card suit
      * @param theValue - card value
      */

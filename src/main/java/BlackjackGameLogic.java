@@ -2,7 +2,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
- * BlackjackGameLogic - implements game logic
+ * implements game logic
  * @method + String whoWon(ArrayList <Card> playerHand1, ArrayList <Card> dealerHand)
  * @method + int handTotal(ArrayList <Card> hand)
  * @method + boolean evaluateBankerDraw(ArrayList <Card> banker)
@@ -30,7 +30,7 @@ public class BlackjackGameLogic {
     }
 
     /**
-     * handTotal() returns the sum of card values in ArrayList
+     * returns the sum of card values in ArrayList
      * @param hand - ArrayList of player's cards
      * @return sum of Card value in ArrayList
      */
@@ -43,7 +43,7 @@ public class BlackjackGameLogic {
     }
 
     /**
-     * evaluateBankerDraw() - determines if baker is required to draw at current round
+     * determines if baker is required to draw at current round
      * @param banker  ArrayList of banker's card
      * @return true if the dealer should draw another card, i.e. if the value is 16 or less.
      */
