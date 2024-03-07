@@ -16,6 +16,7 @@ public class BlackjackDealer {
      * generates playing cards (52 cards, one for each 13 faces 4 units)
      */
     void generateDeck(){
+
         String[] suit = {"Heart", "Diamond", "Spade", "Club"};
         for(int i=0; i<4; i++){
             addAceCardToDeck(deck, suit[i]);
@@ -71,6 +72,17 @@ public class BlackjackDealer {
             hand.add(null);
         }
         return hand;
+    }
+
+    /**
+     *
+     * @return 1 card from top of deck
+     */
+    Card drawOne(){
+        if(deck.isEmpty()){return null;}
+
+        //draw one
+        return deck.remove(0);
     }
 
 

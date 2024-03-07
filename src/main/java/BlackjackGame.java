@@ -1,48 +1,26 @@
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
-import javafx.animation.RotateTransition;
-import javafx.animation.SequentialTransition;
-import javafx.application.Application;
 
 import javafx.application.Platform;
-import javafx.css.PseudoClass;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import java.util.ArrayList;
 
 /**
  * GUI of BlackjackGame
@@ -56,12 +34,14 @@ public class BlackjackGame extends Application {
     private ArrayList<Card> playerHand;
     private ArrayList<Card> bankerHand;
     private BlackjackDealer theDealer;
-
     private double currentBet = 0.0;
     private double totalWinnings = 0.0;
+    private TextField totalWinsAmount, currBetAmount;
+    private  Button Start, UpdateBet;
+    private HBox displayBox, deckBox, playerBox, buttonBox;
 
     private HashMap<String,Scene> scenes = new HashMap<>();
-    Scene homepage, rules, banking, begin;
+    Scene homepage, rules, banking, game;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -70,12 +50,15 @@ public class BlackjackGame extends Application {
         scenes = new HashMap<>();
         homepage = buildHomepage(primaryStage);
         rules = buildRules(primaryStage);
+        banking = buildBankingPage(primaryStage);
+        //game = buildGameScene(primaryStage);
 
         scenes.put("homepage", homepage);
         scenes.put("rules", rules);
+        scenes.put("banking",banking);
+        //scenes.put("game",game);
 
         primaryStage.setScene(scenes.get("homepage"));
-
 
         primaryStage.show();
         // Set focus off TextField after the scene is shown
@@ -83,17 +66,6 @@ public class BlackjackGame extends Application {
         // Other methods and variables can be added here
     }
 
-    private Scene buildBankingPage (Stage primaryStage){
-        // create bank background
-        Background bankBackground = createBackGroundImage("images/blkj.webp");
-
-        // create layout
-        StackPane root = new StackPane();
-        root.setBackground(bankBackground);
-
-
-        return null;
-    }
     private Scene buildHomepage(Stage primaryStage){
         // create homepage background
         Background homebackground = createBackGroundImage("images/rules.jpg");
@@ -112,14 +84,22 @@ public class BlackjackGame extends Application {
 
         Button homeB1 = createButton1("Rules");
         homeB1.setOnAction(e-> {
-            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished( e2->{
                 primaryStage.setScene(scenes.get("rules"));
             });
             pause.play();
         });
 
-        Button homeB2 = createButton1("Place Bet");
+        Button homeB2 = createButton1("Go to bank");
+        homeB2.setOnAction(e3 -> {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.setOnFinished( e2->{
+                primaryStage.setScene(scenes.get("banking"));
+            });
+            pause.play();
+        });
+
         Button homeB3 = createButton1("Begin");
         homeB3.setDisable(true);    // disable begin until bet is placed
 
@@ -204,6 +184,168 @@ public class BlackjackGame extends Application {
         text.setWrapText(true);
         text.setPrefSize(400,400);
         return text;
+    }
+    private Scene buildBankingPage (Stage primaryStage){
+        // create bank background
+        Background bankBackground = createBackGroundImage("images/board.jpg");
+
+        // create layout
+        VBox root = new VBox();
+        root.setBackground(bankBackground);
+
+        // Create a StackPane for the text area to maintain background
+        StackPane textPane = new StackPane();
+
+        // create text area for bank page
+        TextArea bankText = createBankText();
+
+        textPane.getChildren().add(bankText);
+        StackPane.setAlignment(textPane,Pos.CENTER);
+
+        // create buttons
+        Button advance = createButton1("Advance");
+        advance.setPrefSize(100, 70);
+        advance.setOnAction(e->{
+            game = buildGameScene(primaryStage); //Todo: is this needed?
+            scenes.put("game",game);
+            primaryStage.setScene(scenes.get("game"));
+        });
+
+
+        // create VBox
+        HBox top = new HBox();
+        top.setSpacing(80);
+        top.getChildren().addAll(textPane,advance);
+        top.setAlignment(Pos.TOP_CENTER);
+        top.setPadding(new Insets(50,0,50,0));
+
+        // create bank account
+        TextField bankAcc = createTextField("Enter amount to deposit");
+        bankAcc.setOnAction(actionEvent -> {
+            double val = Double.parseDouble(bankAcc.getText()); //Todo try catch here
+            if(val < 0){
+                bankAcc.clear();
+                bankAcc.setPromptText("Invalid amount");
+            }
+            else{
+                totalWinnings = val;
+            }
+
+
+        });
+        // create initial bet
+        TextField initialBet = createTextField("Enter starting bet");
+        initialBet.setOnAction(actionEvent -> {
+            double val = Double.parseDouble(initialBet.getText()); //Todo try catch here
+            if(val < 0){
+                initialBet.clear();
+                initialBet.setPromptText("Invalid amount");
+            }
+            else{
+                currentBet = val;
+            }
+
+        });
+
+        HBox middle = new HBox(50,bankAcc, initialBet);
+        middle.setAlignment(Pos.CENTER);
+
+
+
+        root.getChildren().addAll(top, middle);
+
+        return new Scene(root, 800, 600);
+    }
+    private Scene buildGameScene(Stage primaryStage){
+        // create background
+        Background gameBackground = createBackGroundImage("images/board.jpg");
+
+        // create VBox
+        VBox gameRoot = new VBox();
+
+        // set background
+        gameRoot.setBackground(gameBackground);
+
+        // instance textArea
+        TextField totalWins = createTextField2("Total winnings:");
+        totalWins.setPrefWidth(100);
+        totalWinsAmount = createTextField2("$");
+        totalWinsAmount.setPrefWidth(200);
+        totalWinsAmount.setText("$" + totalWinnings);
+
+        TextField currBet = createTextField2("Current bet:");
+        currBet.setPrefWidth(100);
+        currBetAmount = createTextField2("$");
+        currBetAmount.setPrefWidth(200);
+        currBetAmount.setText("$" + currentBet);
+
+        // instance buttons
+        UpdateBet = createButton1("Update bet");
+        UpdateBet.setPrefSize(50,10);
+        UpdateBet.setOnAction(ev->{
+            currBetAmount.setEditable(true);
+            currBetAmount.clear();
+        });
+        // listen for change in curr bet
+        currBetAmount.setOnAction(ev2 -> {
+                currentBet = Double.parseDouble(currBetAmount.getText());
+                currBetAmount.setText("$ " + currentBet);
+
+        });
+
+
+        Start = createButton1("Start");
+        Start.setPrefSize(50,10);
+        Start.setOnAction(ev3->{
+            UpdateBet.setDisable(true);
+//            currentBet = Double.parseDouble(currBetAmount.getText());
+//            currBetAmount = createTextField2("$" + currentBet);
+            currBetAmount.setDisable(true);
+            // Todo: clear deck
+        });
+
+        // group into HBox
+        VBox vBox1 = new VBox(totalWins,currBet);
+        VBox vBox2 = new VBox(totalWinsAmount,currBetAmount);
+        VBox vBox3 = new VBox(Start,UpdateBet);
+
+        displayBox = new HBox(vBox1,vBox2,vBox3);
+        gameRoot.getChildren().addAll(displayBox);
+
+
+
+        return new Scene(gameRoot, 800, 600);
+    }
+    private static TextField createTextField2(String desc){
+
+        TextField textField = new TextField(desc);
+        textField.setEditable(false);
+        textField.setAlignment(Pos.CENTER);
+        textField.setPrefSize(50,10);
+        return textField;
+    }
+    private static TextField createTextField(String prompt){
+        TextField textField = new TextField();
+        textField.setPromptText(prompt);
+        textField.setAlignment(Pos.CENTER);
+        textField.setPrefSize(100,20);
+        return textField;
+    }
+    private static TextArea createBankText(){
+        TextArea bankText = new TextArea("To begin game add money via the bank area below."+
+                "\n" +
+                " Then place a starting your desired starting bet, which is drawn from you bank account" +
+                "\n" +
+                "You can update your bet amount at the start of each round while there is sufficient funds." +
+                "\n" +
+                "If bank becomes empty you will be kicked out of game and will be required \nto restart game to continue playing" +
+                "\n\n" +
+                "Click the advance button to begin\n"+
+                "Enjoy!!!!!");
+        bankText.setEditable(false);
+        bankText.setWrapText(false);
+        bankText.setPrefSize(500, 150);
+        return bankText;
     }
 
     Button createButton1(String buttonName){
