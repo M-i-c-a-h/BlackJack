@@ -4,9 +4,9 @@ target/
 # Include Maven wrapper jar
 !.mvn/wrapper/maven-wrapper.jar
 
-# Include target folders inside src/main/ and src/test/ directories
+# Include target folders inside src/main/ and src/MyTest/ directories
 !**/src/main/**/target/
-!**/src/test/**/target/
+!**/src/MyTest/**/target/
 
 # Ignore IntelliJ IDEA files
 .idea/modules.xml
@@ -34,7 +34,7 @@ target/
 /.nb-gradle/
 build/
 !**/src/main/**/build/
-!**/src/test/**/build/
+!**/src/MyTest/**/build/
 
 # Ignore VS Code settings
 .vscode/

@@ -10,7 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -34,36 +36,86 @@ public class BlackjackGame extends Application {
     private ArrayList<Card> playerHand;
     private ArrayList<Card> bankerHand;
     private BlackjackDealer theDealer;
+    private BlackjackGameLogic gameLogic;
     private double currentBet = 0.0;
+    private double startingAmount = 0.0;
     private double totalWinnings = 0.0;
     private TextField totalWinsAmount, currBetAmount;
-    private  Button Start, UpdateBet;
-    private HBox displayBox, deckBox, playerBox, buttonBox;
+    private  Button Start, UpdateBet, Stay, Hit;
+    private HBox displayBox;
+    private HBox dealerBox = new HBox();
+    private HBox deckBox = new HBox();
+    private VBox buttonBox = new VBox();
+    private HBox playerBox = new HBox();
 
     private HashMap<String,Scene> scenes = new HashMap<>();
     Scene homepage, rules, banking, game;
+    private boolean gameMode = false;
+
+    /**
+     * method will determine if the user won or lost their bet and
+     * return the amount won or lost based on the value in currentBet
+     * @return profit
+     */
+    public double evaluateWinnings(){
+        if(startingAmount == totalWinnings){
+            return -currentBet;
+        }
+
+        double valToReturn = totalWinnings - startingAmount;
+        startingAmount = totalWinnings; // update startingAmount
+        return valToReturn;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("BlackJack");
-
-        scenes = new HashMap<>();
-        homepage = buildHomepage(primaryStage);
-        rules = buildRules(primaryStage);
-        banking = buildBankingPage(primaryStage);
-        //game = buildGameScene(primaryStage);
-
-        scenes.put("homepage", homepage);
-        scenes.put("rules", rules);
-        scenes.put("banking",banking);
-        //scenes.put("game",game);
-
+        addScenes(primaryStage);
         primaryStage.setScene(scenes.get("homepage"));
+
 
         primaryStage.show();
         // Set focus off TextField after the scene is shown
         Platform.runLater(() -> primaryStage.getScene().getRoot().requestFocus());
-        // Other methods and variables can be added here
+
+    }
+    public void playGame(){
+
+        startingAmount = totalWinnings;
+
+        theDealer = new BlackjackDealer();
+        theDealer.generateDeck();
+        theDealer.shuffleDeck();
+
+        playerHand = new ArrayList<>();
+        playerHand = theDealer.dealHand();
+
+        bankerHand = new ArrayList<>();
+        bankerHand = theDealer.dealHand();
+
+        gameLogic = new BlackjackGameLogic();
+
+
+    }
+
+    boolean bust(ArrayList<Card> busted){
+        return (gameLogic.handTotal(busted) > 21);
+    }
+    void hit(ArrayList<Card> playerToHit){
+        playerToHit.add(theDealer.drawOne());
+    }
+    void stay(){
+
+    }
+    private void addScenes(Stage primaryStage){
+        scenes = new HashMap<>();
+        homepage = buildHomepage(primaryStage);
+        rules = buildRules(primaryStage);
+        banking = buildBankingPage(primaryStage);
+
+        scenes.put("homepage", homepage);
+        scenes.put("rules", rules);
+        scenes.put("banking",banking);
     }
 
     private Scene buildHomepage(Stage primaryStage){
@@ -100,9 +152,18 @@ public class BlackjackGame extends Application {
             pause.play();
         });
 
+        // Todo: this is my cheat button for debugging pls remove on completion!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Button homeB3 = createButton1("Begin");
-        homeB3.setDisable(true);    // disable begin until bet is placed
+        //homeB3.setDisable(true);    // disable begin until bet is placed
+        homeB3.setOnAction(special->{
+            totalWinnings = 500.0;
+            currentBet = 300;
+            game = buildGameScene(primaryStage); //Todo: is this needed?
+            scenes.put("game",game);
+            primaryStage.setScene(scenes.get("game"));
+        });
 
+        // Todo: this is my cheat button for debugging pls remove on completion!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         HBox homeHBox1 = new HBox(homeT1);
         homeHBox1.setAlignment(Pos.CENTER);
@@ -119,7 +180,7 @@ public class BlackjackGame extends Application {
 
         root.getChildren().add(pane);
         homeV1.requestFocus();
-        return new Scene(root, 800, 600);
+        return new Scene(root, 800, 700);
     }
     private Scene buildRules(Stage primaryStage){
 
@@ -153,7 +214,7 @@ public class BlackjackGame extends Application {
         h1.setSpacing(10);
         root.getChildren().addAll(h1);
 
-        return new Scene(root, 800, 600);
+        return new Scene(root, 800, 700);
     }
 
     private static TextArea getRulesTextArea() {
@@ -205,12 +266,12 @@ public class BlackjackGame extends Application {
         // create buttons
         Button advance = createButton1("Advance");
         advance.setPrefSize(100, 70);
+        advance.setDisable(true);
         advance.setOnAction(e->{
             game = buildGameScene(primaryStage); //Todo: is this needed?
             scenes.put("game",game);
             primaryStage.setScene(scenes.get("game"));
         });
-
 
         // create VBox
         HBox top = new HBox();
@@ -223,12 +284,13 @@ public class BlackjackGame extends Application {
         TextField bankAcc = createTextField("Enter amount to deposit");
         bankAcc.setOnAction(actionEvent -> {
             double val = Double.parseDouble(bankAcc.getText()); //Todo try catch here
-            if(val < 0){
+            if(val <= 0){
                 bankAcc.clear();
                 bankAcc.setPromptText("Invalid amount");
             }
             else{
                 totalWinnings = val;
+                advance.setDisable(false);
             }
 
 
@@ -251,10 +313,9 @@ public class BlackjackGame extends Application {
         middle.setAlignment(Pos.CENTER);
 
 
-
         root.getChildren().addAll(top, middle);
 
-        return new Scene(root, 800, 600);
+        return new Scene(root, 800, 700);
     }
     private Scene buildGameScene(Stage primaryStage){
         // create background
@@ -266,6 +327,29 @@ public class BlackjackGame extends Application {
         // set background
         gameRoot.setBackground(gameBackground);
 
+        // create displayBox
+        displayBox = createDisplayBox(primaryStage);
+        deckBox = createDeckBox();
+        buttonBox = createButtonBox();
+        HBox bottom = new HBox(200,buttonBox,playerBox);
+        bottom.setPadding(new Insets(50,50,50,50));
+
+        gameRoot.setSpacing(20);
+        gameRoot.getChildren().addAll(displayBox,dealerBox,deckBox,bottom);
+
+        Platform.runLater(() -> primaryStage.getScene().getRoot().requestFocus());
+        return new Scene(gameRoot, 800, 700);
+    }
+    private VBox createButtonBox(){
+        Stay = createButton2("STAY");
+        Stay.setTextFill(Paint.valueOf("red"));
+
+        Hit = createButton2("HIT");
+        Hit.setTextFill(Paint.valueOf("green"));
+
+        return new VBox(50,Hit, Stay);
+    }
+    private HBox createDisplayBox(Stage primaryStage){
         // instance textArea
         TextField totalWins = createTextField2("Total winnings:");
         totalWins.setPrefWidth(100);
@@ -288,34 +372,95 @@ public class BlackjackGame extends Application {
         });
         // listen for change in curr bet
         currBetAmount.setOnAction(ev2 -> {
-                currentBet = Double.parseDouble(currBetAmount.getText());
-                currBetAmount.setText("$ " + currentBet);
+            currentBet = Double.parseDouble(currBetAmount.getText());
+            currBetAmount.setText("$ " + currentBet);
 
         });
-
 
         Start = createButton1("Start");
         Start.setPrefSize(50,10);
         Start.setOnAction(ev3->{
-            UpdateBet.setDisable(true);
-//            currentBet = Double.parseDouble(currBetAmount.getText());
-//            currBetAmount = createTextField2("$" + currentBet);
-            currBetAmount.setDisable(true);
+            // start game if user has sufficient funds
+            if(totalWinnings >= currentBet){
+                UpdateBet.setDisable(true);
+                totalWinnings -= currentBet;
+                totalWinsAmount.setText("$" + totalWinnings);
+                currBetAmount.setDisable(true);
+                gameMode = true;
+                playGame();
+                updateBoxes(primaryStage);
+                Stay.setDisable(false);
+                Hit.setDisable(false);
+            }
+
             // Todo: clear deck
         });
+        // permit change to current bet if user has some amount of money
+        if(currentBet > totalWinnings){
+            UpdateBet.setDisable(false);
+            Start.setDisable(true);
+        }
 
         // group into HBox
         VBox vBox1 = new VBox(totalWins,currBet);
         VBox vBox2 = new VBox(totalWinsAmount,currBetAmount);
         VBox vBox3 = new VBox(Start,UpdateBet);
 
-        displayBox = new HBox(vBox1,vBox2,vBox3);
-        gameRoot.getChildren().addAll(displayBox);
-
-
-
-        return new Scene(gameRoot, 800, 600);
+        return new HBox(vBox1,vBox2,vBox3);
     }
+    private HBox createPlayerBox(){
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.BOTTOM_LEFT);
+        // create image for dealers card;
+        createCardImage(playerHand, hBox);
+        return hBox;
+    }
+    private  HBox createDeckBox(){
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setPadding(new Insets(20,0,0,20));
+        String fileName = "images/cardsF/deckback.png";
+        for(int i=0;i<2;i++){
+            Image image = new Image(fileName);
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(100);     imageView.setFitHeight(150);
+            imageView.setPreserveRatio(true);
+            hBox.getChildren().add(imageView);
+        }
+
+        return hBox;
+
+    }
+    private HBox createDealerBox(){
+        HBox hBox = new HBox();
+        hBox.setPadding(new Insets(0,20,0,20));
+        // create image for dealers card;
+        createCardImage(bankerHand, hBox);
+        return hBox;
+    }
+    private void createCardImage(ArrayList<Card> hand, HBox hBox){
+        for(Card card : hand){
+            String fileName = String.format("images/cardsF/%s.png", card.suit);
+            Image image = new Image(fileName);
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(100);     imageView.setFitHeight(150);
+            imageView.setPreserveRatio(true);
+            hBox.getChildren().add(imageView);
+        }
+    }
+    private void updateDealerBox(HBox whichBox) {
+        whichBox.getChildren().clear(); // Clear existing content
+        whichBox.getChildren().add(createDealerBox()); // Add updated content
+    }
+    private void updatePlayerBox(HBox whichBox) {
+        whichBox.getChildren().clear(); // Clear existing content
+        whichBox.getChildren().add(createPlayerBox()); // Add updated content
+    }
+    private void updateBoxes(Stage primaryStage){
+        updateDealerBox(dealerBox); // Update dealer box
+        updatePlayerBox(playerBox); // update player box
+    }
+
     private static TextField createTextField2(String desc){
 
         TextField textField = new TextField(desc);
@@ -328,7 +473,7 @@ public class BlackjackGame extends Application {
         TextField textField = new TextField();
         textField.setPromptText(prompt);
         textField.setAlignment(Pos.CENTER);
-        textField.setPrefSize(100,20);
+        textField.setPrefSize(150,20);
         return textField;
     }
     private static TextArea createBankText(){
@@ -353,6 +498,13 @@ public class BlackjackGame extends Application {
         newB.setAlignment(Pos.CENTER);
         return newB;
     }
+    Button createButton2(String buttonName){
+        Button newB = new Button(buttonName);
+        newB.setAlignment(Pos.CENTER);
+        newB.setDisable(true); // until game start
+        newB.setPrefSize(100, 50);
+        return newB;
+    }
 
     Background createBackGroundImage(String src){
 
@@ -366,5 +518,55 @@ public class BlackjackGame extends Application {
 
         return new Background(background);
     }
+    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
+    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
+    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
+    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
+    void test(){
+        playGame();
+        System.out.println("banker had " + gameLogic.handTotal(bankerHand));
+        System.out.println("player had " +gameLogic.handTotal(playerHand));
+        System.out.println("---------------------------");
 
+        int count = 0;
+        while(gameMode){
+            if(!bust(playerHand)){
+                hit(playerHand);
+                if(bust(playerHand)){
+                    end();
+                    break;
+                }
+            }
+            else{
+                end();
+                break;
+
+            }
+
+            while(gameLogic.evaluateBankerDraw(bankerHand)){
+                hit(bankerHand);
+            }
+            count++;
+
+            if(count == 2){
+                gameMode = false;
+                System.out.println("ending loop");
+                String result = gameLogic.whoWon(playerHand,bankerHand);
+                System.out.println(result +" won!");
+            }
+            System.out.println("banker had " + gameLogic.handTotal(bankerHand));
+            System.out.println("player had " +gameLogic.handTotal(playerHand));
+
+        }
+    }
+    void end(){
+        gameMode = false;
+        System.out.println("banker had " + gameLogic.handTotal(bankerHand));
+        System.out.println("player had " +gameLogic.handTotal(playerHand));
+        System.out.println("dealer won!");
+    }
+    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
+    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
+    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
+    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
 };

@@ -17,7 +17,7 @@ public class BlackjackDealer {
      */
     void generateDeck(){
 
-        String[] suit = {"Heart", "Diamond", "Spade", "Club"};
+        String[] suit = {"hearts", "diamonds", "spades", "clubs"};
         for(int i=0; i<4; i++){
             addAceCardToDeck(deck, suit[i]);
             addValueCardToDeck(deck, suit[i]);
@@ -31,7 +31,7 @@ public class BlackjackDealer {
      * @param suit - Type of card
      */
     private void addAceCardToDeck(ArrayList<Card> deck, String suit){
-        deck.add(new Card(String.format("ace of %s",suit),1));
+        deck.add(new Card(String.format("ace_of_%s",suit),1));
     }
 
     /**
@@ -41,7 +41,7 @@ public class BlackjackDealer {
      */
     private void addValueCardToDeck(ArrayList<Card> deck, String suit){
         for(int i=2; i<=10; i++){
-            deck.add(new Card(String.format("%d of %s",i, suit),i));
+            deck.add(new Card(String.format("%d_of_%s",i, suit),i));
         }
     }
 
@@ -51,9 +51,9 @@ public class BlackjackDealer {
      * @param suit - Type of card
      */
     private void addFaceCardToDeck(ArrayList<Card> deck, String suit){
-        deck.add(new Card(String.format("Queen of %s",suit),10));
-        deck.add(new Card(String.format("King of %s",suit),10));
-        deck.add(new Card(String.format("Jack of %s",suit),10));
+        deck.add(new Card(String.format("queen_of_%s",suit),10));
+        deck.add(new Card(String.format("king_of_%s",suit),10));
+        deck.add(new Card(String.format("jack_of_%s",suit),10));
     }
 
     /**
@@ -62,14 +62,9 @@ public class BlackjackDealer {
      */
     ArrayList<Card> dealHand(){
         ArrayList<Card> hand = new ArrayList<>();
-
-        // draw from deck while card drawn is less than 2 and deck is not empty
-        while(!deck.isEmpty() && hand.size() < 2){
-            hand.add(deck.remove(0));
-        }
-        // hand was not completely drawn, add null
-        while(hand.size() < 2){
-            hand.add(null);
+        // draw two cards
+        while(hand.size()<2){
+            hand.add(drawOne());
         }
         return hand;
     }
