@@ -35,11 +35,12 @@ public class BlackjackGameLogic {
      * @return sum of Card value in ArrayList
      */
     int handTotal(ArrayList <Card> hand){
-        int sum = 0;
+        int sum = 0; boolean hasAnAce = false;
         for(Card card : hand){
+            if(card.suit.contains("ace")){ hasAnAce = true; }
             sum += card.value;
         }
-        return sum;
+        return (hasAnAce && (sum + 10 <= 21)) ? sum + 10 : sum;
     }
 
     /**

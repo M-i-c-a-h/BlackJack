@@ -19,6 +19,7 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -33,12 +34,11 @@ public class BlackjackGame extends Application {
         launch(args);
     }
 
-    private ArrayList<Card> playerHand;
-    private ArrayList<Card> bankerHand;
-    private BlackjackDealer theDealer;
-    private BlackjackGameLogic gameLogic;
+    ArrayList<Card> playerHand;
+    ArrayList<Card> bankerHand;
+    BlackjackDealer theDealer;
+    BlackjackGameLogic gameLogic;
     private double currentBet = 0.0;
-    private double startingAmount = 0.0;
     private double totalWinnings = 0.0;
     private TextField totalWinsAmount, currBetAmount;
     private  Button Start, UpdateBet, Stay, Hit;
@@ -58,13 +58,29 @@ public class BlackjackGame extends Application {
      * @return profit
      */
     public double evaluateWinnings(){
-        if(startingAmount == totalWinnings){
-            return -currentBet;
-        }
+        String result = gameLogic.whoWon(playerHand, bankerHand);
 
-        double valToReturn = totalWinnings - startingAmount;
-        startingAmount = totalWinnings; // update startingAmount
-        return valToReturn;
+        switch(result){
+            case "push":    // game is tied
+                return currentBet;
+            case "dealer":  // dealer wins
+                return  (-1 * currentBet);
+            case "player":  // player wins by blackjack
+                if(blackjackWin(playerHand)){
+                    return (1.50 * currentBet) + currentBet;
+                }
+        }
+        return currentBet * 2;  // player has a normal win
+    }
+    private boolean blackjackWin(ArrayList<Card>hand){
+        int sum = 0; boolean hasAnAce = false; boolean hasFaceCard = false;
+        for(Card card : hand){
+            if(card.suit.contains("ace")){ hasAnAce = true; }
+            if(card.suit.contains("queen") || card.suit.contains("king") || card.suit.contains("jack")){ hasFaceCard = true; }
+            sum += card.value;
+        }
+        // if player has an ace card and a face card -> player gets a blackjack win
+        return (hasAnAce && hasFaceCard) && (sum + 10 == 21);
     }
 
     @Override
@@ -79,9 +95,7 @@ public class BlackjackGame extends Application {
         Platform.runLater(() -> primaryStage.getScene().getRoot().requestFocus());
 
     }
-    public void playGame(){
-
-        startingAmount = totalWinnings;
+    private void initialiseGame(){
 
         theDealer = new BlackjackDealer();
         theDealer.generateDeck();
@@ -94,18 +108,69 @@ public class BlackjackGame extends Application {
         bankerHand = theDealer.dealHand();
 
         gameLogic = new BlackjackGameLogic();
+        dealerBox.getChildren().clear();
+        playerBox.getChildren().clear();
+    }
+    public void playGame(Stage primaryStage){
 
+        Hit.setOnAction(ev1->{
+           attemptToHit(playerHand, primaryStage);
+        });
+
+        Stay.setOnAction(ev2->{
+            if(!checkStatus(playerHand)){
+                makeBankersMove();
+            }
+            end(primaryStage);
+        });
 
     }
-
-    boolean bust(ArrayList<Card> busted){
-        return (gameLogic.handTotal(busted) > 21);
+    boolean checkStatus(ArrayList<Card> opponent){
+        return bust(opponent);
     }
-    void hit(ArrayList<Card> playerToHit){
-        playerToHit.add(theDealer.drawOne());
+    private void makeBankersMove(){
+        while(gameLogic.evaluateBankerDraw(bankerHand)){
+            System.out.println(gameLogic.evaluateBankerDraw(bankerHand));
+            bankerHand.add(theDealer.drawOne());
+            updateDealerBox(dealerBox);
+        }
     }
-    void stay(){
+    private void attemptToHit(ArrayList<Card> aPlayer, Stage primaryStage){
+        if(bust(aPlayer)) { end(primaryStage); return;}
+        hit(aPlayer);
+        updatePlayerBox(playerBox);
+    }
 
+    boolean bust(ArrayList<Card> busted){return (gameLogic.handTotal(busted) > 21);}
+    void hit(ArrayList<Card> playerToHit){playerToHit.add(theDealer.drawOne());}
+    void end(Stage primaryStage){
+        // give user some time to assess game
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(5));
+        pauseTransition.play();
+
+        gameMode = false;
+        System.out.println("banker had " + gameLogic.handTotal(bankerHand));
+        System.out.println("player had " +gameLogic.handTotal(playerHand));
+        String result = gameLogic.whoWon(playerHand,bankerHand);
+        System.out.println(result + "won!");
+
+        double val = evaluateWinnings();
+        if(val >= 0){
+            totalWinnings += val;
+            updateTextAmountField("totalWinsAmount");
+        }
+
+        // allow another round, if user has sufficient funds
+        if(totalWinnings == 0){
+            primaryStage.setScene(scenes.get("homepage"));
+        }
+        else{
+            Start.setDisable(false);
+        }
+        currBetAmount.setDisable(false);
+        UpdateBet.setDisable(false);
+        Hit.setDisable(true);
+        Stay.setDisable(true);
     }
     private void addScenes(Stage primaryStage){
         scenes = new HashMap<>();
@@ -158,6 +223,7 @@ public class BlackjackGame extends Application {
         homeB3.setOnAction(special->{
             totalWinnings = 500.0;
             currentBet = 300;
+            initialiseGame();
             game = buildGameScene(primaryStage); //Todo: is this needed?
             scenes.put("game",game);
             primaryStage.setScene(scenes.get("game"));
@@ -180,12 +246,12 @@ public class BlackjackGame extends Application {
 
         root.getChildren().add(pane);
         homeV1.requestFocus();
-        return new Scene(root, 800, 700);
+        return new Scene(root, 900, 750);
     }
     private Scene buildRules(Stage primaryStage){
 
         // Create a background with the background image
-        Background backgroundWithImage = createBackGroundImage("images/rules.jpg");
+        Background backgroundWithImage = createBackGroundImage("images/rules2.jpg");
 
         // Create a layout pane
         StackPane root = new StackPane();
@@ -214,7 +280,7 @@ public class BlackjackGame extends Application {
         h1.setSpacing(10);
         root.getChildren().addAll(h1);
 
-        return new Scene(root, 800, 700);
+        return new Scene(root, 900, 750);
     }
 
     private static TextArea getRulesTextArea() {
@@ -229,7 +295,7 @@ public class BlackjackGame extends Application {
                 "Kings, Queens, Jacks, and Tens are worth a value of 10. An Ace has a value of 1 or 11. " +
                 "The remaining cards are counted at face value.\n" +
                 "\n" +
-                " You are dealt two cards each whilst the dealer is dealt one face up. \n" +
+                " You are dealt two cards each whilst the dealer is dealt one face up. \n\n" +
                 "If your first 2 cards add up to 21 (an Ace and a card valued 10), that’s Blackjack! \n" +
                 "If they have any other total, decide whether you wish to ‘draw’ or ‘stay’. \n" +
                 "You can continue to draw cards until you are happy with your hand.\n" +
@@ -268,6 +334,7 @@ public class BlackjackGame extends Application {
         advance.setPrefSize(100, 70);
         advance.setDisable(true);
         advance.setOnAction(e->{
+            initialiseGame();
             game = buildGameScene(primaryStage); //Todo: is this needed?
             scenes.put("game",game);
             primaryStage.setScene(scenes.get("game"));
@@ -293,7 +360,6 @@ public class BlackjackGame extends Application {
                 advance.setDisable(false);
             }
 
-
         });
         // create initial bet
         TextField initialBet = createTextField("Enter starting bet");
@@ -315,11 +381,11 @@ public class BlackjackGame extends Application {
 
         root.getChildren().addAll(top, middle);
 
-        return new Scene(root, 800, 700);
+        return new Scene(root, 900, 750);
     }
     private Scene buildGameScene(Stage primaryStage){
         // create background
-        Background gameBackground = createBackGroundImage("images/board.jpg");
+        Background gameBackground = createBackGroundImage("images/backd2.jpg");
 
         // create VBox
         VBox gameRoot = new VBox();
@@ -338,7 +404,7 @@ public class BlackjackGame extends Application {
         gameRoot.getChildren().addAll(displayBox,dealerBox,deckBox,bottom);
 
         Platform.runLater(() -> primaryStage.getScene().getRoot().requestFocus());
-        return new Scene(gameRoot, 800, 700);
+        return new Scene(gameRoot, 900, 750);
     }
     private VBox createButtonBox(){
         Stay = createButton2("STAY");
@@ -355,17 +421,18 @@ public class BlackjackGame extends Application {
         totalWins.setPrefWidth(100);
         totalWinsAmount = createTextField2("$");
         totalWinsAmount.setPrefWidth(200);
-        totalWinsAmount.setText("$" + totalWinnings);
+        updateTextAmountField("totalWinsAmount");
 
         TextField currBet = createTextField2("Current bet:");
         currBet.setPrefWidth(100);
         currBetAmount = createTextField2("$");
         currBetAmount.setPrefWidth(200);
-        currBetAmount.setText("$" + currentBet);
+        updateTextAmountField("currBetAmount");
 
         // instance buttons
         UpdateBet = createButton1("Update bet");
-        UpdateBet.setPrefSize(50,10);
+        UpdateBet.setPrefSize(80,10);
+        // Todo: change update bet action and currentBet textArea !!!!!
         UpdateBet.setOnAction(ev->{
             currBetAmount.setEditable(true);
             currBetAmount.clear();
@@ -373,24 +440,25 @@ public class BlackjackGame extends Application {
         // listen for change in curr bet
         currBetAmount.setOnAction(ev2 -> {
             currentBet = Double.parseDouble(currBetAmount.getText());
-            currBetAmount.setText("$ " + currentBet);
+            updateTextAmountField("currBetAmount");
 
         });
 
         Start = createButton1("Start");
-        Start.setPrefSize(50,10);
+        Start.setPrefSize(80,10);
         Start.setOnAction(ev3->{
             // start game if user has sufficient funds
             if(totalWinnings >= currentBet){
                 UpdateBet.setDisable(true);
                 totalWinnings -= currentBet;
-                totalWinsAmount.setText("$" + totalWinnings);
+                updateTextAmountField("totalWinsAmount");
                 currBetAmount.setDisable(true);
                 gameMode = true;
-                playGame();
+                initialiseGame();
                 updateBoxes(primaryStage);
                 Stay.setDisable(false);
                 Hit.setDisable(false);
+                playGame(primaryStage);
             }
 
             // Todo: clear deck
@@ -492,6 +560,14 @@ public class BlackjackGame extends Application {
         bankText.setPrefSize(500, 150);
         return bankText;
     }
+    private void updateTextAmountField(String whichTextField){
+        if(whichTextField.equals("totalWinsAmount")){
+            totalWinsAmount.setText("$" + totalWinnings);
+        }
+        else{
+            currBetAmount.setText("$" + currentBet);
+        }
+    }
 
     Button createButton1(String buttonName){
         Button newB = new Button(buttonName);
@@ -522,8 +598,8 @@ public class BlackjackGame extends Application {
     // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
     // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
     // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
-    void test(){
-        playGame();
+    void test(Stage primaryStage){
+        //playGame(pri);
         System.out.println("banker had " + gameLogic.handTotal(bankerHand));
         System.out.println("player had " +gameLogic.handTotal(playerHand));
         System.out.println("---------------------------");
@@ -533,12 +609,12 @@ public class BlackjackGame extends Application {
             if(!bust(playerHand)){
                 hit(playerHand);
                 if(bust(playerHand)){
-                    end();
+                    end(primaryStage);
                     break;
                 }
             }
             else{
-                end();
+                end(primaryStage);
                 break;
 
             }
@@ -559,12 +635,7 @@ public class BlackjackGame extends Application {
 
         }
     }
-    void end(){
-        gameMode = false;
-        System.out.println("banker had " + gameLogic.handTotal(bankerHand));
-        System.out.println("player had " +gameLogic.handTotal(playerHand));
-        System.out.println("dealer won!");
-    }
+
     // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
     // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
     // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
