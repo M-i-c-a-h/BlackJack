@@ -7,7 +7,6 @@
     <list default="true" id="0344f073-5c94-43dd-9fc9-d040720105aa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/BlackjackGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BlackjackGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/BlackjackGameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BlackjackGameLogic.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,32 +42,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.BlackjackGame.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyTest.testBeginGameWithNoCards.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyTest.testWinnerLooserLogic.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyTest.testWinnerWinsByBlackjack.executor&quot;: &quot;Run&quot;,
-    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.BlackJack [clean,:,compile,:,exec,java].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.run BlackJack .executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/pappi/Documents/UIC_DOC/Spring2024/CS 342/BlackJack/src/test/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BlackjackGame.executor": "Run",
+    "JUnit.MyTest.executor": "Run",
+    "JUnit.MyTest.testBankerDraw.executor": "Run",
+    "JUnit.MyTest.testBeginGameWithNoCards.executor": "Run",
+    "JUnit.MyTest.testCardConstructor.executor": "Run",
+    "JUnit.MyTest.testDealHand.executor": "Run",
+    "JUnit.MyTest.testGenerateDeck.executor": "Run",
+    "JUnit.MyTest.testHandTotal.executor": "Run",
+    "JUnit.MyTest.testHandTotalEdgeCase1.executor": "Run",
+    "JUnit.MyTest.testHandTotalEdgeCase2.executor": "Run",
+    "JUnit.MyTest.testHandTotalEdgeCase3.executor": "Run",
+    "JUnit.MyTest.testWinnerLooserLogic.executor": "Run",
+    "JUnit.MyTest.testWinnerWinsByBlackjack.executor": "Run",
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.BlackJack [clean,:,compile,:,exec,java].executor": "Run",
+    "Maven.run BlackJack .executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/pappi/Documents/UIC_DOC/Spring2024/CS 342/BlackJack/src/test/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/test/resources" />
@@ -80,57 +88,72 @@
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.run BlackJack ">
-    <configuration name="BlackjackGame" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="BlackjackGame" />
-      <module name="BlackJack" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MyTest.testBeginGameWithNoCards" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.MyTest.testWhoWon">
+    <configuration name="MyTest.testHandTotal" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BlackJack" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MyTest" />
-      <option name="METHOD_NAME" value="testBeginGameWithNoCards" />
+      <option name="METHOD_NAME" value="testHandTotal" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyTest.testWinnerLooserLogic" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MyTest.testHandTotalEdgeCase1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BlackJack" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MyTest" />
-      <option name="METHOD_NAME" value="testWinnerLooserLogic" />
+      <option name="METHOD_NAME" value="testHandTotalEdgeCase1" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyTest.testWinnerWinsByBlackjack" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MyTest.testHandTotalEdgeCase2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BlackJack" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MyTest" />
-      <option name="METHOD_NAME" value="testWinnerWinsByBlackjack" />
+      <option name="METHOD_NAME" value="testHandTotalEdgeCase2" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyTest.testHandTotalEdgeCase3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BlackJack" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MyTest" />
+      <option name="METHOD_NAME" value="testHandTotalEdgeCase3" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyTest.testWhoWon" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BlackJack" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MyTest" />
+      <option name="METHOD_NAME" value="testWhoWon" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.BlackjackGame" />
-      <item itemvalue="JUnit.MyTest.testBeginGameWithNoCards" />
-      <item itemvalue="JUnit.MyTest.testWinnerLooserLogic" />
-      <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack" />
+      <item itemvalue="JUnit.MyTest.testHandTotal" />
+      <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase1" />
+      <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase2" />
+      <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase3" />
+      <item itemvalue="JUnit.MyTest.testWhoWon" />
       <item itemvalue="Maven.run BlackJack " />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack" />
-        <item itemvalue="JUnit.MyTest.testBeginGameWithNoCards" />
-        <item itemvalue="JUnit.MyTest.testWinnerLooserLogic" />
-        <item itemvalue="Application.BlackjackGame" />
+        <item itemvalue="JUnit.MyTest.testWhoWon" />
+        <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase3" />
+        <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase2" />
+        <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase1" />
+        <item itemvalue="JUnit.MyTest.testHandTotal" />
       </list>
     </recent_temporary>
   </component>
@@ -152,7 +175,8 @@
       <updated>1709706887480</updated>
       <workItem from="1709706889051" duration="6717000" />
       <workItem from="1709713676322" duration="99584000" />
-      <workItem from="1709962400644" duration="3246000" />
+      <workItem from="1709962400644" duration="24728000" />
+      <workItem from="1710219027816" duration="8740000" />
     </task>
     <servers />
   </component>
@@ -164,18 +188,21 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/BlackjackGame.java</url>
-          <line>131</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/BlackjackGame.java</url>
-          <line>157</line>
+          <line>173</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/BlackjackGameLogic.java</url>
           <line>17</line>
           <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/BlackjackGame.java</url>
+          <line>144</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
