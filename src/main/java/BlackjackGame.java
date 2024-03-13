@@ -624,7 +624,7 @@ public class BlackjackGame extends Application {
     private static TextArea createBankText(){
         TextArea bankText = new TextArea("To begin game add money via the bank area below."+
                 "\n" +
-                " Then place a starting your desired starting bet, which is drawn from you bank account" +
+                " Then place your desired starting bet, which is drawn from you bank account" +
                 "\n" +
                 "You can update your bet amount at the start of each round while there is sufficient funds." +
                 "\n" +
