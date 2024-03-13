@@ -23,6 +23,7 @@ public class BlackjackDealer {
             addValueCardToDeck(deck, suit[i]);
             addFaceCardToDeck(deck, suit[i]);
         }
+        shuffleDeck();
     }
 
     /**

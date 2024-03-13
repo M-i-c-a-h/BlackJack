@@ -136,7 +136,6 @@ public class BlackjackGame extends Application {
     }
     private void makeBankersMove(){
         while(gameLogic.evaluateBankerDraw(bankerHand)){
-            System.out.println(gameLogic.evaluateBankerDraw(bankerHand));
             bankerHand.add(theDealer.drawOne());
             updateDealerBox(dealerBox,false);
         }
@@ -150,25 +149,18 @@ public class BlackjackGame extends Application {
     boolean bust(ArrayList<Card> busted){return (gameLogic.handTotal(busted) > 21);}
     void hit(ArrayList<Card> playerToHit){playerToHit.add(theDealer.drawOne());}
     void end(Stage primaryStage){
-        //Todo: Tidy up end()
-        // abstract Alert -> create alert for empty balance
 
         updateBoxes(true);
         gameMode = false;
+        String result = gameLogic.whoWon(playerHand,bankerHand);
         System.out.println("banker had " + gameLogic.handTotal(bankerHand));
         System.out.println("player had " +gameLogic.handTotal(playerHand));
-        String result = gameLogic.whoWon(playerHand,bankerHand);
-        // give user some time to assess game
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Round result");
-        alert.setHeaderText(null);
-        alert.setContentText(getAlertResult(result));
-
-        ButtonType buttonType = new ButtonType("Close", ButtonBar.ButtonData.OK_DONE);
-        alert.getButtonTypes().setAll(buttonType);
-
-        alert.showAndWait();
         System.out.println(result + "won!");
+
+
+        // alert user on game result
+        Alert alert = createAlert("Round result",result);
+        alert.showAndWait();
 
         double val = evaluateWinnings();
         if(val >= 0){
@@ -179,8 +171,11 @@ public class BlackjackGame extends Application {
         // allow another round, if user has sufficient funds
         if(totalWinnings == 0){
             advance.setDisable(true);
-            primaryStage.setScene(scenes.get("homepage"));
 
+            Alert alert1 = createAlert(null,"null");
+            alert1.showAndWait();
+
+            primaryStage.setScene(scenes.get("homepage"));
         }
         else{
             Start.setDisable(false);
@@ -189,6 +184,18 @@ public class BlackjackGame extends Application {
         UpdateBet.setDisable(false);
         Hit.setDisable(true);
         Stay.setDisable(true);
+        Platform.runLater(() -> primaryStage.getScene().getRoot().requestFocus());
+    }
+    private Alert createAlert(String title, String text){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(getAlertResult(text));
+
+        ButtonType buttonType = new ButtonType("Close", ButtonBar.ButtonData.OK_DONE);
+        alert.getButtonTypes().setAll(buttonType);
+
+        return alert;
     }
     private String getAlertResult(String result){
         switch(result){
@@ -196,8 +203,12 @@ public class BlackjackGame extends Application {
                 return "Game tied! Refund processed";
             case "dealer":
                 return "You lost your bet, dealer won\nBetter luck next time";
+            case "player":
+                return "Congratulations! You won the game.\nYour earnings has been added to your account";
+
         }
-        return "Congratulations! You won the game.\nYour earnings has been added to your account";
+        return "You have been kicked out of the game due to insufficient funds." + "\n" +
+                "Please go to bank to continue playing.";
     }
     private void addScenes(Stage primaryStage){
         scenes = new HashMap<>();
@@ -244,9 +255,8 @@ public class BlackjackGame extends Application {
             pause.play();
         });
 
-        // Todo: this is my cheat button for debugging pls remove on completion!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         Button homeB3 = createButton1("Quick play");
-        //homeB3.setDisable(true);    // disable begin until bet is placed
         homeB3.setOnAction(special->{
             totalWinnings = 500.0;
             currentBet = 300;
@@ -255,8 +265,6 @@ public class BlackjackGame extends Application {
             scenes.put("game",game);
             primaryStage.setScene(scenes.get("game"));
         });
-
-        // Todo: this is my cheat button for debugging pls remove on completion!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         HBox homeHBox1 = new HBox(homeT1);
         homeHBox1.setAlignment(Pos.CENTER);
@@ -367,7 +375,7 @@ public class BlackjackGame extends Application {
         advance.setDisable(true);
         advance.setOnAction(e->{
             initialiseGame();
-            game = buildGameScene(primaryStage); //Todo: is this needed?
+            game = buildGameScene(primaryStage);
             scenes.put("game",game);
             primaryStage.setScene(scenes.get("game"));
         });
@@ -391,7 +399,7 @@ public class BlackjackGame extends Application {
         // create bank account
         TextField bankAcc = createTextField("Enter amount to deposit");
         bankAcc.setOnAction(actionEvent -> {
-            double val = Double.parseDouble(bankAcc.getText()); //Todo try catch here
+            double val = Double.parseDouble(bankAcc.getText());
             if(val <= 0){
                 bankAcc.clear();
                 bankAcc.setPromptText("Invalid amount");
@@ -405,7 +413,7 @@ public class BlackjackGame extends Application {
         // create initial bet
         TextField initialBet = createTextField("Enter starting bet");
         initialBet.setOnAction(actionEvent -> {
-            double val = Double.parseDouble(initialBet.getText()); //Todo try catch here
+            double val = Double.parseDouble(initialBet.getText());
             if(val < 0){
                 initialBet.clear();
                 initialBet.setPromptText("Invalid amount");
@@ -479,7 +487,7 @@ public class BlackjackGame extends Application {
         // instance buttons
         UpdateBet = createButton1("Update bet");
         UpdateBet.setPrefSize(80,10);
-        // Todo: change update bet action and currentBet textArea !!!!!
+
         UpdateBet.setOnAction(ev->{
             currBetAmount.setEditable(true);
             currBetAmount.clear();
@@ -507,20 +515,12 @@ public class BlackjackGame extends Application {
                 Hit.setDisable(false);
                 playGame(primaryStage);
             }
-
-            // Todo: clear deck
         });
-        // permit change to current bet if user has some amount of money
-//        if(currentBet > totalWinnings){
-//            UpdateBet.setDisable(false);
-//            Start.setDisable(true);
-//        }
 
         // create HBox homeBox
         HBox homeBox = new HBox();
         homeBox.getChildren().add(HOME);
         homeBox.setAlignment(Pos.TOP_RIGHT);
-
 
         // group into HBox
         VBox vBox1 = new VBox(totalWins,currBet);
@@ -551,7 +551,6 @@ public class BlackjackGame extends Application {
         }
 
         return hBox;
-
     }
     private Button createHomeButton(Stage primaryStage){
         Button home =  createButton2("Home");
@@ -569,7 +568,6 @@ public class BlackjackGame extends Application {
         else{
             createCardImageDealer(bankerHand, hBox);
         }
-
         return hBox;
     }
     private void createCardImageDealer(ArrayList<Card> hand, HBox hBox){
@@ -673,50 +671,4 @@ public class BlackjackGame extends Application {
 
         return new Background(background);
     }
-    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
-    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
-    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
-    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
-    void test(Stage primaryStage){
-        //playGame(pri);
-        System.out.println("banker had " + gameLogic.handTotal(bankerHand));
-        System.out.println("player had " +gameLogic.handTotal(playerHand));
-        System.out.println("---------------------------");
-
-        int count = 0;
-        while(gameMode){
-            if(!bust(playerHand)){
-                hit(playerHand);
-                if(bust(playerHand)){
-                    end(primaryStage);
-                    break;
-                }
-            }
-            else{
-                end(primaryStage);
-                break;
-
-            }
-
-            while(gameLogic.evaluateBankerDraw(bankerHand)){
-                hit(bankerHand);
-            }
-            count++;
-
-            if(count == 2){
-                gameMode = false;
-                System.out.println("ending loop");
-                String result = gameLogic.whoWon(playerHand,bankerHand);
-                System.out.println(result +" won!");
-            }
-            System.out.println("banker had " + gameLogic.handTotal(bankerHand));
-            System.out.println("player had " +gameLogic.handTotal(playerHand));
-
-        }
-    }
-
-    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
-    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
-    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
-    // Todo: this is a test!!!!!!!!!!!!!!!!!!!!!!!!!!**********************************************
 };
