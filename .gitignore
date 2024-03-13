@@ -45,3 +45,4 @@ build/
 # Explicitly include Java source files (if needed)
 /src/main/java/BlackjackGameLogic.java
 /src/main/java/Card.java
+/src/test/java/MyTest.java
