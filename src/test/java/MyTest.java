@@ -6,15 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 public class MyTest {
-    private BlackjackGame myGameDemo(){
-        BlackjackGame game = new BlackjackGame();
-        game.gameLogic = new BlackjackGameLogic();
-        game.theDealer = new BlackjackDealer();
-        game.bankerHand = new ArrayList<>();
-        game.playerHand = new ArrayList<>();
 
-        return game;
-    }
     private BlackjackDealer myDealer(){
         return new BlackjackDealer();
     }
@@ -105,29 +97,28 @@ public class MyTest {
         assertEquals(21, gameLogic.handTotal(dealer));
 
         assertEquals("dealer",gameLogic.whoWon(player,dealer));
-
     }
-    @Test
-    void testGameWithNoCards(){
-        BlackjackGame game = myGameDemo();
 
-        assertEquals(0, game.gameLogic.handTotal(game.playerHand));
-        assertEquals(0, game.gameLogic.handTotal(game.bankerHand));
-    }
     @Test
     void testWinnerWinsByBlackjack(){
-        BlackjackGame game = myGameDemo();
+        BlackjackGameLogic gameLogic = new BlackjackGameLogic();
 
-        assertEquals(0, game.gameLogic.handTotal(game.playerHand));
-        assertEquals(0, game.gameLogic.handTotal(game.bankerHand));
+        ArrayList<Card> player = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(player));
+        player.add(new Card("ace_of_clubs",1));
+        player.add(new Card("jack_of_diamonds",10));
 
-        game.playerHand.add(new Card("ace_of_clubs",1));
-        game.playerHand.add(new Card("jack_of_diamonds",10));
+        assertEquals(21, gameLogic.handTotal(player));
 
-        game.bankerHand.add(new Card("9_of_clubs",9));
-        game.bankerHand.add(new Card("6_of_spades",6));
-        game.bankerHand.add(new Card("4_of_hearts",4));
-        assertEquals("player", game.gameLogic.whoWon(game.playerHand,game.bankerHand), "Incorrect gameLogic behavior: " +
+        ArrayList<Card> dealer = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(dealer));
+
+        dealer.add(new Card("9_of_clubs",9));
+        dealer.add(new Card("6_of_spades",6));
+        dealer.add(new Card("4_of_hearts",4));
+
+        assertEquals(19, gameLogic.handTotal(dealer));
+        assertEquals("player", gameLogic.whoWon(player,dealer), "Incorrect gameLogic behavior: " +
                 "player should win by blackjack");
     }
 }

@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0344f073-5c94-43dd-9fc9-d040720105aa" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/BlackjackGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BlackjackGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/MyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/MyTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +51,8 @@
     "JUnit.MyTest.testBeginGameWithNoCards.executor": "Run",
     "JUnit.MyTest.testCardConstructor.executor": "Run",
     "JUnit.MyTest.testDealHand.executor": "Run",
+    "JUnit.MyTest.testDrawOne.executor": "Run",
+    "JUnit.MyTest.testGameWithNoCards.executor": "Run",
     "JUnit.MyTest.testGenerateDeck.executor": "Run",
     "JUnit.MyTest.testHandTotal.executor": "Run",
     "JUnit.MyTest.testHandTotalEdgeCase1.executor": "Run",
@@ -88,42 +92,32 @@
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MyTest.testWhoWon">
-    <configuration name="MyTest.testHandTotal" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.MyTest.testWinnerWinsByBlackjack">
+    <configuration name="MyTest.testCardConstructor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BlackJack" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MyTest" />
-      <option name="METHOD_NAME" value="testHandTotal" />
+      <option name="METHOD_NAME" value="testCardConstructor" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyTest.testHandTotalEdgeCase1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MyTest.testDrawOne" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BlackJack" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MyTest" />
-      <option name="METHOD_NAME" value="testHandTotalEdgeCase1" />
+      <option name="METHOD_NAME" value="testDrawOne" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyTest.testHandTotalEdgeCase2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MyTest.testGameWithNoCards" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BlackJack" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MyTest" />
-      <option name="METHOD_NAME" value="testHandTotalEdgeCase2" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MyTest.testHandTotalEdgeCase3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BlackJack" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="MyTest" />
-      <option name="METHOD_NAME" value="testHandTotalEdgeCase3" />
+      <option name="METHOD_NAME" value="testGameWithNoCards" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -139,21 +133,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MyTest.testWinnerWinsByBlackjack" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BlackJack" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MyTest" />
+      <option name="METHOD_NAME" value="testWinnerWinsByBlackjack" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
-      <item itemvalue="JUnit.MyTest.testHandTotal" />
-      <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase1" />
-      <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase2" />
-      <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase3" />
+      <item itemvalue="JUnit.MyTest.testDrawOne" />
+      <item itemvalue="JUnit.MyTest.testGameWithNoCards" />
       <item itemvalue="JUnit.MyTest.testWhoWon" />
+      <item itemvalue="JUnit.MyTest.testCardConstructor" />
+      <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack" />
       <item itemvalue="Maven.run BlackJack " />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack" />
+        <item itemvalue="JUnit.MyTest.testGameWithNoCards" />
+        <item itemvalue="JUnit.MyTest.testDrawOne" />
+        <item itemvalue="JUnit.MyTest.testCardConstructor" />
         <item itemvalue="JUnit.MyTest.testWhoWon" />
-        <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase3" />
-        <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase2" />
-        <item itemvalue="JUnit.MyTest.testHandTotalEdgeCase1" />
-        <item itemvalue="JUnit.MyTest.testHandTotal" />
       </list>
     </recent_temporary>
   </component>
@@ -176,7 +180,7 @@
       <workItem from="1709706889051" duration="6717000" />
       <workItem from="1709713676322" duration="99584000" />
       <workItem from="1709962400644" duration="24728000" />
-      <workItem from="1710219027816" duration="9434000" />
+      <workItem from="1710219027816" duration="12306000" />
     </task>
     <servers />
   </component>

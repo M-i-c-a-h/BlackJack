@@ -641,10 +641,10 @@ public class BlackjackGame extends Application {
     }
     private void updateTextAmountField(String whichTextField){
         if(whichTextField.equals("totalWinsAmount")){
-            totalWinsAmount.setText("$" + totalWinnings);
+            totalWinsAmount.setText(String.format("$%.2f",totalWinnings));
         }
         else{
-            currBetAmount.setText("$" + currentBet);
+            currBetAmount.setText(String.format("$%.2f",currentBet));
         }
     }
 
