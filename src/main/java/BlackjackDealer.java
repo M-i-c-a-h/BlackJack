@@ -17,6 +17,8 @@ public class BlackjackDealer {
      */
     void generateDeck(){
 
+        if(deckSize() > 0){ deck.clear();}
+
         String[] suit = {"hearts", "diamonds", "spades", "clubs"};
         for(int i=0; i<4; i++){
             addAceCardToDeck(deck, suit[i]);

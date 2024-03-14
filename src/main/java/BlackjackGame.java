@@ -36,8 +36,8 @@ public class BlackjackGame extends Application {
 
     ArrayList<Card> playerHand;
     ArrayList<Card> bankerHand;
-    BlackjackDealer theDealer;
-    BlackjackGameLogic gameLogic;
+    BlackjackDealer theDealer = new BlackjackDealer();
+    BlackjackGameLogic gameLogic = new BlackjackGameLogic();
     private double currentBet = 0.0;
     private double totalWinnings = 0.0;
     private TextField totalWinsAmount, currBetAmount;
@@ -71,9 +71,11 @@ public class BlackjackGame extends Application {
     }
     private void initialiseGame(){
 
-        theDealer = new BlackjackDealer();
-        theDealer.generateDeck();
-        theDealer.shuffleDeck();
+        if(theDealer.deckSize() < 6){
+            theDealer.generateDeck();
+            theDealer.shuffleDeck();
+            System.out.println("generating new deck");
+        }
 
         playerHand = new ArrayList<>();
         playerHand = theDealer.dealHand();
@@ -81,7 +83,6 @@ public class BlackjackGame extends Application {
         bankerHand = new ArrayList<>();
         bankerHand = theDealer.dealHand();
 
-        gameLogic = new BlackjackGameLogic();
         dealerBox.getChildren().clear();
         playerBox.getChildren().clear();
     }
@@ -231,7 +232,7 @@ public class BlackjackGame extends Application {
         // set background
         root.setBackground(homebackground);
 
-        TextField homeT1 = new TextField("WELCOME TO BLACKJACK\n by Micah");
+        TextField homeT1 = new TextField("WELCOME TO BLACKJACK by Micah");
         homeT1.setPrefSize(400, 30);
         homeT1.setAlignment(Pos.CENTER);
         homeT1.setEditable(false);
@@ -319,7 +320,7 @@ public class BlackjackGame extends Application {
     }
 
     private static TextArea getRulesTextArea() {
-        TextArea text = new TextArea("Welcome to Blackjack by Micah\n" +
+        TextArea text = new TextArea("Welcome to Blackjack\n by Micah" +
                 "\n" +
                 "\n" +
                 "To start:\n\n" +
