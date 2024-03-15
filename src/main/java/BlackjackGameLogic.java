@@ -19,7 +19,17 @@ public class BlackjackGameLogic {
         int dealer_total = this.handTotal(dealerHand);
 
         // if player and dealer have equal scores, game is tied, return push
-        if(player1_total == dealer_total){ return "push";}
+        if(player1_total == dealer_total){
+            if(blackjackWin(playerHand1) && blackjackWin(dealerHand)){
+                return "push";
+            }
+            else if(blackjackWin(playerHand1)){
+                return "player";
+            }
+            else {
+                return "dealer";
+            }
+        }
 
         // if player has total less than or equal to 21 and greater than dealer, player wins
         if((player1_total <= 21) && (dealer_total >= 22 || (player1_total > dealer_total))) {
@@ -27,6 +37,16 @@ public class BlackjackGameLogic {
         }
 
         return "dealer"; // Dealer wins if player busts or dealer's total is higher
+    }
+    protected boolean blackjackWin(ArrayList<Card>hand){
+        int sum = 0; boolean hasAnAce = false; boolean hasA10Card = false;
+        for(Card card : hand){
+            if(card.suit.contains("ace")){ hasAnAce = true; }
+            if(card.value == 10){ hasA10Card = true; }
+            sum += card.value;
+        }
+        // if player has an ace card and a card of value 10-> player gets a blackjack win
+        return (hasAnAce && hasA10Card) && (sum + 10 == 21);
     }
 
     /**

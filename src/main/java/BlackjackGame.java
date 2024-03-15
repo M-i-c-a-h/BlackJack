@@ -116,22 +116,13 @@ public class BlackjackGame extends Application {
             case "dealer":  // dealer wins
                 return  (-1 * currentBet);
             case "player":  // player wins by blackjack
-                if(blackjackWin(playerHand)){
+                if(gameLogic.blackjackWin(playerHand)){
                     return (1.50 * currentBet) + currentBet;
                 }
         }
         return currentBet * 2;  // player has a normal win
     }
-    private boolean blackjackWin(ArrayList<Card>hand){
-        int sum = 0; boolean hasAnAce = false; boolean hasFaceCard = false;
-        for(Card card : hand){
-            if(card.suit.contains("ace")){ hasAnAce = true; }
-            if(card.suit.contains("queen") || card.suit.contains("king") || card.suit.contains("jack")){ hasFaceCard = true; }
-            sum += card.value;
-        }
-        // if player has an ace card and a face card -> player gets a blackjack win
-        return (hasAnAce && hasFaceCard) && (sum + 10 == 21);
-    }
+
     boolean checkStatus(ArrayList<Card> opponent){
         return bust(opponent);
     }
@@ -232,7 +223,7 @@ public class BlackjackGame extends Application {
         // set background
         root.setBackground(homebackground);
 
-        TextField homeT1 = new TextField("WELCOME TO BLACKJACK by Micah");
+        TextField homeT1 = new TextField("WELCOME TO BLACKJACK UIC CASINO");
         homeT1.setPrefSize(400, 30);
         homeT1.setAlignment(Pos.CENTER);
         homeT1.setEditable(false);
@@ -320,7 +311,7 @@ public class BlackjackGame extends Application {
     }
 
     private static TextArea getRulesTextArea() {
-        TextArea text = new TextArea("Welcome to Blackjack\n by Micah" +
+        TextArea text = new TextArea("Welcome to Blackjack\n" +
                 "\n" +
                 "\n" +
                 "To start:\n\n" +

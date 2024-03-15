@@ -100,7 +100,7 @@ public class MyTest {
     }
 
     @Test
-    void testWinnerWinsByBlackjack(){
+    void testWinnerWinsByBlackjack1(){
         BlackjackGameLogic gameLogic = new BlackjackGameLogic();
 
         ArrayList<Card> player = new ArrayList<>();
@@ -120,5 +120,73 @@ public class MyTest {
         assertEquals(19, gameLogic.handTotal(dealer));
         assertEquals("player", gameLogic.whoWon(player,dealer), "Incorrect gameLogic behavior: " +
                 "player should win by blackjack");
+    }
+    @Test
+    void testWinnerWinsByBlackjack2(){
+        BlackjackGameLogic gameLogic = new BlackjackGameLogic();
+
+        ArrayList<Card> player = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(player));
+        player.add(new Card("ace_of_clubs",1));
+        player.add(new Card("jack_of_diamonds",10));
+
+        assertEquals(21, gameLogic.handTotal(player));
+
+        ArrayList<Card> dealer = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(dealer));
+
+        dealer.add(new Card("9_of_clubs",9));
+        dealer.add(new Card("6_of_spades",6));
+        dealer.add(new Card("4_of_hearts",4));
+        dealer.add(new Card("2_of_hearts",2));
+
+        assertEquals(21, gameLogic.handTotal(dealer));
+        assertEquals("player", gameLogic.whoWon(player,dealer), "Incorrect gameLogic behavior: " +
+                "player should win by blackjack");
+    }
+
+    @Test
+    void testWinnerWinsByBlackjack3(){
+        BlackjackGameLogic gameLogic = new BlackjackGameLogic();
+
+        ArrayList<Card> player = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(player));
+        player.add(new Card("ace_of_clubs",1));
+        player.add(new Card("jack_of_diamonds",10));
+
+        assertEquals(21, gameLogic.handTotal(player));
+
+        ArrayList<Card> dealer = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(dealer));
+
+        dealer.add(new Card("10_of_clubs",10));
+        dealer.add(new Card("6_of_spades",6));
+        dealer.add(new Card("4_of_hearts",4));
+        dealer.add(new Card("ace_of_hearts",1));
+
+        assertEquals(21, gameLogic.handTotal(dealer));
+        assertEquals("player", gameLogic.whoWon(player,dealer), "Incorrect gameLogic behavior: " +
+                "player should win by blackjack");
+    }
+    @Test
+    void testWinnerWinsByBlackjack4(){
+        BlackjackGameLogic gameLogic = new BlackjackGameLogic();
+
+        ArrayList<Card> player = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(player));
+        player.add(new Card("ace_of_clubs",1));
+        player.add(new Card("jack_of_diamonds",10));
+
+        assertEquals(21, gameLogic.handTotal(player));
+
+        ArrayList<Card> dealer = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(dealer));
+
+        dealer.add(new Card("10_of_clubs",10));
+        dealer.add(new Card("ace_of_hearts",1));
+
+        assertEquals(21, gameLogic.handTotal(dealer));
+        assertEquals("push", gameLogic.whoWon(player,dealer), "Incorrect gameLogic behavior: " +
+                "game should tie by blackjack");
     }
 }
