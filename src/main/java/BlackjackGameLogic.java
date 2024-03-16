@@ -18,16 +18,21 @@ public class BlackjackGameLogic {
         int player1_total = this.handTotal(playerHand1);
         int dealer_total = this.handTotal(dealerHand);
 
-        // if player and dealer have equal scores, game is tied, return push
+        // if player and dealer have equal scores,
+        // both hit blackjack game is tied, return push
         if(player1_total == dealer_total){
             if(blackjackWin(playerHand1) && blackjackWin(dealerHand)){
                 return "push";
             }
+            // if player hits blackjack and dealer doesnt
             else if(blackjackWin(playerHand1)){
                 return "player";
             }
-            else {
+            else if (blackjackWin(dealerHand)){
                 return "dealer";
+            }
+            else{
+                return "push";
             }
         }
 
