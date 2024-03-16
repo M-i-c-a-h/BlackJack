@@ -189,4 +189,69 @@ public class MyTest {
         assertEquals("push", gameLogic.whoWon(player,dealer), "Incorrect gameLogic behavior: " +
                 "game should tie by blackjack");
     }
+    @Test
+    void testDraw1() {
+        BlackjackGameLogic gameLogic = new BlackjackGameLogic();
+
+        ArrayList<Card> player = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(player));
+        player.add(new Card("ace_of_clubs", 1));
+        player.add(new Card("jack_of_diamonds", 10));
+
+        assertEquals(21, gameLogic.handTotal(player));
+
+        ArrayList<Card> dealer = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(dealer));
+
+        dealer.add(new Card("ace_of_clubs", 1));
+        dealer.add(new Card("jack_of_diamonds", 10));
+
+        assertEquals(21, gameLogic.handTotal(dealer));
+        assertEquals("push", gameLogic.whoWon(player, dealer), "Incorrect gameLogic behavior: " +
+                "game should be tied");
+    }
+    @Test
+    void testDraw2() {
+        BlackjackGameLogic gameLogic = new BlackjackGameLogic();
+
+        ArrayList<Card> player = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(player));
+        player.add(new Card("ace_of_clubs", 1));
+        player.add(new Card("jack_of_diamonds", 10));
+
+        assertEquals(21, gameLogic.handTotal(player));
+
+        ArrayList<Card> dealer = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(dealer));
+
+        dealer.add(new Card("10_of_spades", 10));
+        dealer.add(new Card("jack_of_diamonds", 10));
+        dealer.add(new Card("ace_of_spades", 1));
+
+        assertEquals(21, gameLogic.handTotal(dealer));
+        assertEquals("player", gameLogic.whoWon(player, dealer), "Incorrect gameLogic behavior: " +
+                "game should be tied");
+    }
+
+    @Test
+    void testDraw3() {
+        BlackjackGameLogic gameLogic = new BlackjackGameLogic();
+
+        ArrayList<Card> player = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(player));
+        player.add(new Card("8_of_clubs", 8));
+        player.add(new Card("jack_of_diamonds", 10));
+
+        assertEquals(18, gameLogic.handTotal(player));
+
+        ArrayList<Card> dealer = new ArrayList<>();
+        assertEquals(0, gameLogic.handTotal(dealer));
+
+        dealer.add(new Card("10_of_spades", 10));
+        dealer.add(new Card("8_of_spades", 8));
+
+        assertEquals(18, gameLogic.handTotal(dealer));
+        assertEquals("push", gameLogic.whoWon(player, dealer), "Incorrect gameLogic behavior: " +
+                "game should be tied");
+    }
 }

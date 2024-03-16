@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0344f073-5c94-43dd-9fc9-d040720105aa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/BlackjackGameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BlackjackGameLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/MyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/MyTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +53,8 @@
     "JUnit.MyTest.testBeginGameWithNoCards.executor": "Run",
     "JUnit.MyTest.testCardConstructor.executor": "Run",
     "JUnit.MyTest.testDealHand.executor": "Run",
+    "JUnit.MyTest.testDraw1.executor": "Run",
+    "JUnit.MyTest.testDraw2.executor": "Run",
     "JUnit.MyTest.testDrawOne.executor": "Run",
     "JUnit.MyTest.testGameWithNoCards.executor": "Run",
     "JUnit.MyTest.testGenerateDeck.executor": "Run",
@@ -97,7 +99,7 @@
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.run BlackJack ">
+  <component name="RunManager" selected="JUnit.MyTest.testDraw3">
     <configuration name="MyTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BlackJack" />
       <option name="PACKAGE_NAME" value="" />
@@ -107,31 +109,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyTest.testWinnerWinsByBlackjack" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MyTest.testDraw1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BlackJack" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MyTest" />
-      <option name="METHOD_NAME" value="testWinnerWinsByBlackjack" />
+      <option name="METHOD_NAME" value="testDraw1" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyTest.testWinnerWinsByBlackjack2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MyTest.testDraw2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BlackJack" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MyTest" />
-      <option name="METHOD_NAME" value="testWinnerWinsByBlackjack2" />
+      <option name="METHOD_NAME" value="testDraw2" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyTest.testWinnerWinsByBlackjack3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MyTest.testDraw3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BlackJack" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MyTest" />
-      <option name="METHOD_NAME" value="testWinnerWinsByBlackjack3" />
+      <option name="METHOD_NAME" value="testDraw3" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -148,20 +150,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack2" />
-      <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack3" />
+      <item itemvalue="JUnit.MyTest.testDraw1" />
+      <item itemvalue="JUnit.MyTest.testDraw2" />
+      <item itemvalue="JUnit.MyTest.testDraw3" />
       <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack4" />
       <item itemvalue="JUnit.MyTest" />
-      <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack" />
       <item itemvalue="Maven.run BlackJack " />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MyTest.testDraw3" />
+        <item itemvalue="JUnit.MyTest.testDraw2" />
+        <item itemvalue="JUnit.MyTest.testDraw1" />
         <item itemvalue="JUnit.MyTest" />
         <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack4" />
-        <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack3" />
-        <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack2" />
-        <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack" />
       </list>
     </recent_temporary>
   </component>
@@ -184,7 +186,7 @@
       <workItem from="1709706889051" duration="6717000" />
       <workItem from="1709713676322" duration="99584000" />
       <workItem from="1709962400644" duration="24728000" />
-      <workItem from="1710219027816" duration="33911000" />
+      <workItem from="1710219027816" duration="34350000" />
     </task>
     <servers />
   </component>
