@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0344f073-5c94-43dd-9fc9-d040720105aa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/MyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/MyTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/BlackjackDealer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BlackjackDealer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/BlackjackGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BlackjackGame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +56,7 @@
     "JUnit.MyTest.testDealHand.executor": "Run",
     "JUnit.MyTest.testDraw1.executor": "Run",
     "JUnit.MyTest.testDraw2.executor": "Run",
+    "JUnit.MyTest.testDraw3.executor": "Run",
     "JUnit.MyTest.testDrawOne.executor": "Run",
     "JUnit.MyTest.testGameWithNoCards.executor": "Run",
     "JUnit.MyTest.testGenerateDeck.executor": "Run",
@@ -99,12 +101,22 @@
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MyTest.testDraw3">
+  <component name="RunManager" selected="JUnit.MyTest.testDealHand">
     <configuration name="MyTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BlackJack" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MyTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyTest.testDealHand" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BlackJack" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MyTest" />
+      <option name="METHOD_NAME" value="testDealHand" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -139,31 +151,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyTest.testWinnerWinsByBlackjack4" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BlackJack" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="MyTest" />
-      <option name="METHOD_NAME" value="testWinnerWinsByBlackjack4" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="JUnit.MyTest.testDraw1" />
       <item itemvalue="JUnit.MyTest.testDraw2" />
       <item itemvalue="JUnit.MyTest.testDraw3" />
-      <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack4" />
       <item itemvalue="JUnit.MyTest" />
+      <item itemvalue="JUnit.MyTest.testDealHand" />
       <item itemvalue="Maven.run BlackJack " />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MyTest.testDealHand" />
         <item itemvalue="JUnit.MyTest.testDraw3" />
         <item itemvalue="JUnit.MyTest.testDraw2" />
         <item itemvalue="JUnit.MyTest.testDraw1" />
         <item itemvalue="JUnit.MyTest" />
-        <item itemvalue="JUnit.MyTest.testWinnerWinsByBlackjack4" />
       </list>
     </recent_temporary>
   </component>
@@ -186,7 +188,7 @@
       <workItem from="1709706889051" duration="6717000" />
       <workItem from="1709713676322" duration="99584000" />
       <workItem from="1709962400644" duration="24728000" />
-      <workItem from="1710219027816" duration="34350000" />
+      <workItem from="1710219027816" duration="36863000" />
     </task>
     <servers />
   </component>
@@ -198,7 +200,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/BlackjackGame.java</url>
-          <line>157</line>
+          <line>156</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -208,7 +210,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/BlackjackGame.java</url>
-          <line>135</line>
+          <line>134</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>

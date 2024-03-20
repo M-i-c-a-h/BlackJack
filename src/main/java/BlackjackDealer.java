@@ -25,7 +25,6 @@ public class BlackjackDealer {
             addValueCardToDeck(deck, suit[i]);
             addFaceCardToDeck(deck, suit[i]);
         }
-        shuffleDeck();
     }
 
     /**
@@ -88,6 +87,7 @@ public class BlackjackDealer {
      * shuffles all 52 cards on the deck
      */
     void shuffleDeck(){
+        generateDeck();
         Collections.shuffle(deck);
     }
 

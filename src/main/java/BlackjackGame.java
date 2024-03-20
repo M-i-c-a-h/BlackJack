@@ -72,7 +72,6 @@ public class BlackjackGame extends Application {
     private void initialiseGame(){
 
         if(theDealer.deckSize() < 6){
-            theDealer.generateDeck();
             theDealer.shuffleDeck();
             System.out.println("generating new deck");
         }
@@ -223,7 +222,7 @@ public class BlackjackGame extends Application {
         // set background
         root.setBackground(homebackground);
 
-        TextField homeT1 = new TextField("WELCOME TO BLACKJACK UIC CASINO");
+        TextField homeT1 = new TextField("WELCOME TO BLACKJACK BY MICAH");
         homeT1.setPrefSize(400, 30);
         homeT1.setAlignment(Pos.CENTER);
         homeT1.setEditable(false);
